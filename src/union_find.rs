@@ -1,6 +1,5 @@
 use crate::bimap::BiMap;
 use itertools::Itertools;
-use std::collections::HashMap;
 use std::hash::Hash;
 
 #[derive(Debug)]

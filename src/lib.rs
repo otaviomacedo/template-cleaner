@@ -2,7 +2,7 @@ mod bimap;
 mod union_find;
 
 use crate::union_find::UnionFind;
-use include_dir::{include_dir, Dir};
+use include_dir::{include_dir, Dir, File};
 use itertools::Itertools;
 use yaml_rust2::yaml::Hash;
 use yaml_rust2::{Yaml, YamlLoader};
@@ -21,13 +21,7 @@ fn clean_template(template: &String) -> anyhow::Result<Yaml> {
             let resources = value.as_hash().unwrap();
             let mut new_resources = Hash::new();
             for (logical_id, resource) in resources {
-                let resource_type = resource_type(resource);
-                let filename = type_to_filename(resource_type.unwrap());
-                let schema_file = SCHEMAS_DIR.get_file(filename.as_str()).unwrap();
-                let schema = schema_file.contents_utf8().unwrap();
-                let mut docs = YamlLoader::load_from_str(schema)?;
-                let schema = docs.pop().unwrap();
-
+                let schema = schema_for(resource)?;
                 let props = properties(resource).unwrap();
                 let clean = remove_mutually_exclusive(props, &schema.as_hash().unwrap());
 
@@ -40,6 +34,15 @@ fn clean_template(template: &String) -> anyhow::Result<Yaml> {
     }
 
     Ok(Yaml::Hash(result))
+}
+
+fn schema_for(resource: &Yaml) -> anyhow::Result<Yaml> {
+    let resource_type = resource_type(resource);
+    let filename = type_to_filename(resource_type.unwrap());
+    let file = SCHEMAS_DIR.get_file(filename.as_str()).unwrap();
+    let schema = file.contents_utf8().unwrap();
+    let mut docs = YamlLoader::load_from_str(schema)?;
+    Ok(docs.pop().unwrap())
 }
 
 fn properties(resource: &Yaml) -> Option<&Hash> {
