@@ -14,29 +14,32 @@ fn clean_template(template: &String) -> anyhow::Result<Yaml> {
     let doc = docs.pop().unwrap();
 
     let yaml = doc.as_hash().unwrap();
-    let resources = resources(yaml).unwrap();
-
     let mut result = Hash::new();
 
-    for (logical_id, resource) in resources {
-        let resource_type = resource_type(resource);
-        let filename = type_to_filename(resource_type.unwrap());
-        let schema_file = SCHEMAS_DIR.get_file(filename.as_str()).unwrap();
-        let schema = schema_file.contents_utf8().unwrap();
-        let mut docs = YamlLoader::load_from_str(schema)?;
-        let schema = docs.pop().unwrap();
+    for (section, value) in yaml {
+        if section == &Yaml::String("Resources".into()) {
+            let resources = value.as_hash().unwrap();
+            let mut new_resources = Hash::new();
+            for (logical_id, resource) in resources {
+                let resource_type = resource_type(resource);
+                let filename = type_to_filename(resource_type.unwrap());
+                let schema_file = SCHEMAS_DIR.get_file(filename.as_str()).unwrap();
+                let schema = schema_file.contents_utf8().unwrap();
+                let mut docs = YamlLoader::load_from_str(schema)?;
+                let schema = docs.pop().unwrap();
 
-        let props = properties(resource).unwrap();
-        let clean = remove_mutually_exclusive(props, &schema.as_hash().unwrap());
+                let props = properties(resource).unwrap();
+                let clean = remove_mutually_exclusive(props, &schema.as_hash().unwrap());
 
-        result.insert(logical_id.clone(), Yaml::Hash(clean));
+                new_resources.insert(logical_id.clone(), Yaml::Hash(clean));
+            }
+            result.insert(Yaml::String("Resources".into()), Yaml::Hash(new_resources));
+        } else {
+            result.insert(section.clone(), value.clone());
+        }
     }
 
     Ok(Yaml::Hash(result))
-}
-
-fn resources(doc: &Hash) -> Option<&Hash> {
-    doc.get(&Yaml::String("Resources".into()))?.as_hash()
 }
 
 fn properties(resource: &Yaml) -> Option<&Hash> {
@@ -100,6 +103,11 @@ mod tests {
     #[test]
     fn it_works() {
         let template = r#"
+Parameters:
+  DbSubnetIpBlocks:
+    Description: "Comma-delimited list of three CIDR blocks"
+    Type: CommaDelimitedList
+    Default: "10.0.48.0/24, 10.0.112.0/24, 10.0.176.0/24"
 Resources:
    myInstance:
      Type: 'AWS::EC2::Instance'
