@@ -62,6 +62,8 @@ fn resource_type(resource: &Yaml) -> Option<&str> {
 
 fn remove_mutually_exclusive(data: &Hash, schema: &Hash) -> Hash {
     // TODO Recursive processing. For now, we are only sanitizing the top level.
+    // TODO `data` should be &Yaml and then we pattern match against the possible types.
+    //  Primitives are just cloned, and for hashes and maps, we make a recursive call
 
     let all_properties = schema
         .get(&Yaml::String("properties".into()))
@@ -69,6 +71,7 @@ fn remove_mutually_exclusive(data: &Hash, schema: &Hash) -> Hash {
         .map(|props| props.keys().collect_vec())
         .unwrap();
 
+    // TODO Move this chunk of code, up to the computation of remaining properties, to a separate function
     // Compute a set of property sets. All elements of a given property set are mutually exclusive
     // to all other elements of the same set.
     let mut property_sets = UnionFind::from_iter(all_properties.iter().copied());
@@ -136,6 +139,7 @@ Resources:
 "#;
         let result = clean_template(&template.to_string()).unwrap();
 
+        // TODO Assertions
         dbg!(&result);
     }
 }
