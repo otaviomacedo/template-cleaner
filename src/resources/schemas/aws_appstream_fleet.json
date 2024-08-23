@@ -1,0 +1,863 @@
+{
+ "additionalProperties": false,
+ "createOnlyProperties": [
+  "/properties/Name",
+  "/properties/FleetType"
+ ],
+ "definitions": {
+  "ComputeCapacity": {
+   "additionalProperties": false,
+   "properties": {
+    "DesiredInstances": {
+     "type": "integer"
+    },
+    "DesiredSessions": {
+     "type": "integer"
+    }
+   },
+   "type": "object"
+  },
+  "DomainJoinInfo": {
+   "additionalProperties": false,
+   "properties": {
+    "DirectoryName": {
+     "type": "string"
+    },
+    "OrganizationalUnitDistinguishedName": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "S3Location": {
+   "additionalProperties": false,
+   "properties": {
+    "S3Bucket": {
+     "type": "string"
+    },
+    "S3Key": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "S3Bucket",
+    "S3Key"
+   ],
+   "type": "object"
+  },
+  "Tag": {
+   "additionalProperties": false,
+   "properties": {
+    "Key": {
+     "type": "string"
+    },
+    "Value": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "Value",
+    "Key"
+   ],
+   "type": "object"
+  },
+  "VpcConfig": {
+   "additionalProperties": false,
+   "properties": {
+    "SecurityGroupIds": {
+     "format": "AWS::EC2::SecurityGroup.Ids",
+     "items": {
+      "format": "AWS::EC2::SecurityGroup.GroupId",
+      "type": "string"
+     },
+     "type": "array",
+     "uniqueItems": false
+    },
+    "SubnetIds": {
+     "items": {
+      "type": "string"
+     },
+     "type": "array",
+     "uniqueItems": false
+    }
+   },
+   "type": "object"
+  }
+ },
+ "primaryIdentifier": [
+  "/properties/Id"
+ ],
+ "properties": {
+  "ComputeCapacity": {
+   "$ref": "#/definitions/ComputeCapacity"
+  },
+  "Description": {
+   "type": "string"
+  },
+  "DisconnectTimeoutInSeconds": {
+   "maximum": 360000,
+   "minimum": 60,
+   "type": "integer"
+  },
+  "DisplayName": {
+   "type": "string"
+  },
+  "DomainJoinInfo": {
+   "$ref": "#/definitions/DomainJoinInfo"
+  },
+  "EnableDefaultInternetAccess": {
+   "type": "boolean"
+  },
+  "FleetType": {
+   "type": "string"
+  },
+  "IamRoleArn": {
+   "type": "string"
+  },
+  "Id": {
+   "type": "string"
+  },
+  "IdleDisconnectTimeoutInSeconds": {
+   "maximum": 3600,
+   "minimum": 0,
+   "type": "integer"
+  },
+  "ImageArn": {
+   "type": "string"
+  },
+  "ImageName": {
+   "type": "string"
+  },
+  "InstanceType": {
+   "allOf": [
+    {
+     "_description": "Automatically updated using update_specs_from_pricing",
+     "ap-northeast-1": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "ap-northeast-2": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "ap-south-1": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "ap-southeast-1": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "ap-southeast-2": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "ca-central-1": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "eu-central-1": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "eu-west-1": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "eu-west-2": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "sa-east-1": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "us-east-1": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "us-east-2": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "us-gov-east-1": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "us-gov-west-1": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     },
+     "us-west-2": {
+      "enum": [
+       "stream.compute.2xlarge",
+       "stream.compute.4xlarge",
+       "stream.compute.8xlarge",
+       "stream.compute.large",
+       "stream.compute.xlarge",
+       "stream.graphics-design.2xlarge",
+       "stream.graphics-design.4xlarge",
+       "stream.graphics-design.large",
+       "stream.graphics-design.xlarge",
+       "stream.graphics-pro.16xlarge",
+       "stream.graphics-pro.4xlarge",
+       "stream.graphics-pro.8xlarge",
+       "stream.graphics.g4dn.12xlarge",
+       "stream.graphics.g4dn.16xlarge",
+       "stream.graphics.g4dn.2xlarge",
+       "stream.graphics.g4dn.4xlarge",
+       "stream.graphics.g4dn.8xlarge",
+       "stream.graphics.g4dn.xlarge",
+       "stream.graphics.g5.12xlarge",
+       "stream.graphics.g5.16xlarge",
+       "stream.graphics.g5.24xlarge",
+       "stream.graphics.g5.2xlarge",
+       "stream.graphics.g5.4xlarge",
+       "stream.graphics.g5.8xlarge",
+       "stream.graphics.g5.xlarge",
+       "stream.memory.2xlarge",
+       "stream.memory.4xlarge",
+       "stream.memory.8xlarge",
+       "stream.memory.large",
+       "stream.memory.xlarge",
+       "stream.memory.z1d.12xlarge",
+       "stream.memory.z1d.2xlarge",
+       "stream.memory.z1d.3xlarge",
+       "stream.memory.z1d.6xlarge",
+       "stream.memory.z1d.large",
+       "stream.memory.z1d.xlarge",
+       "stream.standard.2xlarge",
+       "stream.standard.large",
+       "stream.standard.medium",
+       "stream.standard.small",
+       "stream.standard.xlarge"
+      ]
+     }
+    }
+   ],
+   "type": "string"
+  },
+  "MaxConcurrentSessions": {
+   "type": "integer"
+  },
+  "MaxSessionsPerInstance": {
+   "type": "integer"
+  },
+  "MaxUserDurationInSeconds": {
+   "maximum": 360000,
+   "minimum": 600,
+   "type": "integer"
+  },
+  "Name": {
+   "type": "string"
+  },
+  "Platform": {
+   "type": "string"
+  },
+  "SessionScriptS3Location": {
+   "$ref": "#/definitions/S3Location"
+  },
+  "StreamView": {
+   "type": "string"
+  },
+  "Tags": {
+   "items": {
+    "$ref": "#/definitions/Tag"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "UsbDeviceFilterStrings": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "VpcConfig": {
+   "$ref": "#/definitions/VpcConfig"
+  }
+ },
+ "readOnlyProperties": [
+  "/properties/Id"
+ ],
+ "required": [
+  "InstanceType",
+  "Name"
+ ],
+ "typeName": "AWS::AppStream::Fleet"
+}

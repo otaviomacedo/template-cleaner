@@ -1,0 +1,679 @@
+{
+ "additionalProperties": false,
+ "createOnlyProperties": [
+  "/properties/BrokerName",
+  "/properties/StorageType",
+  "/properties/DeploymentMode",
+  "/properties/EngineType",
+  "/properties/SubnetIds",
+  "/properties/AuthenticationStrategy",
+  "/properties/EncryptionOptions",
+  "/properties/PubliclyAccessible"
+ ],
+ "definitions": {
+  "ConfigurationId": {
+   "additionalProperties": false,
+   "properties": {
+    "Id": {
+     "type": "string"
+    },
+    "Revision": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "Revision",
+    "Id"
+   ],
+   "type": "object"
+  },
+  "EncryptionOptions": {
+   "additionalProperties": false,
+   "properties": {
+    "KmsKeyId": {
+     "type": "string"
+    },
+    "UseAwsOwnedKey": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "UseAwsOwnedKey"
+   ],
+   "type": "object"
+  },
+  "LdapServerMetadata": {
+   "additionalProperties": false,
+   "properties": {
+    "Hosts": {
+     "items": {
+      "type": "string"
+     },
+     "type": "array",
+     "uniqueItems": false
+    },
+    "RoleBase": {
+     "type": "string"
+    },
+    "RoleName": {
+     "type": "string"
+    },
+    "RoleSearchMatching": {
+     "type": "string"
+    },
+    "RoleSearchSubtree": {
+     "type": "boolean"
+    },
+    "ServiceAccountPassword": {
+     "type": "string"
+    },
+    "ServiceAccountUsername": {
+     "type": "string"
+    },
+    "UserBase": {
+     "type": "string"
+    },
+    "UserRoleName": {
+     "type": "string"
+    },
+    "UserSearchMatching": {
+     "type": "string"
+    },
+    "UserSearchSubtree": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "Hosts",
+    "UserSearchMatching",
+    "UserBase",
+    "RoleSearchMatching",
+    "ServiceAccountUsername",
+    "RoleBase",
+    "ServiceAccountPassword"
+   ],
+   "type": "object"
+  },
+  "LogList": {
+   "additionalProperties": false,
+   "properties": {
+    "Audit": {
+     "type": "boolean"
+    },
+    "General": {
+     "type": "boolean"
+    }
+   },
+   "type": "object"
+  },
+  "MaintenanceWindow": {
+   "additionalProperties": false,
+   "properties": {
+    "DayOfWeek": {
+     "type": "string"
+    },
+    "TimeOfDay": {
+     "type": "string"
+    },
+    "TimeZone": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "DayOfWeek",
+    "TimeOfDay",
+    "TimeZone"
+   ],
+   "type": "object"
+  },
+  "TagsEntry": {
+   "additionalProperties": false,
+   "properties": {
+    "Key": {
+     "type": "string"
+    },
+    "Value": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "Value",
+    "Key"
+   ],
+   "type": "object"
+  },
+  "User": {
+   "additionalProperties": false,
+   "properties": {
+    "ConsoleAccess": {
+     "type": "boolean"
+    },
+    "Groups": {
+     "items": {
+      "type": "string"
+     },
+     "type": "array",
+     "uniqueItems": false
+    },
+    "Password": {
+     "type": "string"
+    },
+    "ReplicationUser": {
+     "type": "boolean"
+    },
+    "Username": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "Username",
+    "Password"
+   ],
+   "type": "object"
+  }
+ },
+ "primaryIdentifier": [
+  "/properties/Id"
+ ],
+ "properties": {
+  "AmqpEndpoints": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "Arn": {
+   "type": "string"
+  },
+  "AuthenticationStrategy": {
+   "type": "string"
+  },
+  "AutoMinorVersionUpgrade": {
+   "type": "boolean"
+  },
+  "BrokerName": {
+   "type": "string"
+  },
+  "Configuration": {
+   "$ref": "#/definitions/ConfigurationId"
+  },
+  "ConfigurationId": {
+   "type": "string"
+  },
+  "ConfigurationRevision": {
+   "type": "integer"
+  },
+  "DataReplicationMode": {
+   "type": "string"
+  },
+  "DataReplicationPrimaryBrokerArn": {
+   "type": "string"
+  },
+  "DeploymentMode": {
+   "enum": [
+    "ACTIVE_STANDBY_MULTI_AZ",
+    "CLUSTER_MULTI_AZ",
+    "SINGLE_INSTANCE"
+   ],
+   "type": "string"
+  },
+  "EncryptionOptions": {
+   "$ref": "#/definitions/EncryptionOptions"
+  },
+  "EngineType": {
+   "enum": [
+    "ACTIVEMQ",
+    "RABBITMQ"
+   ],
+   "type": "string"
+  },
+  "EngineVersion": {
+   "type": "string"
+  },
+  "HostInstanceType": {
+   "allOf": [
+    {
+     "_description": "Automatically updated using update_specs_from_pricing",
+     "af-south-1": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "ap-east-1": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "ap-northeast-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "ap-northeast-2": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "ap-northeast-3": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "ap-south-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "ap-south-2": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "ap-southeast-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "ap-southeast-2": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "ap-southeast-3": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "ap-southeast-4": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "ca-central-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "ca-west-1": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "cn-north-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "cn-northwest-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "eu-central-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "eu-central-2": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "eu-north-1": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "eu-south-1": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "eu-south-2": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "eu-west-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "eu-west-2": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "eu-west-3": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "il-central-1": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "me-central-1": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "me-south-1": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "sa-east-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "us-east-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "us-east-2": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "us-gov-east-1": {
+      "enum": [
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t3.micro"
+      ]
+     },
+     "us-gov-west-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "us-west-1": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     },
+     "us-west-2": {
+      "enum": [
+       "mq.m4.large",
+       "mq.m5.2xlarge",
+       "mq.m5.4xlarge",
+       "mq.m5.large",
+       "mq.m5.xlarge",
+       "mq.t2.micro",
+       "mq.t3.micro"
+      ]
+     }
+    }
+   ],
+   "type": "string"
+  },
+  "Id": {
+   "type": "string"
+  },
+  "IpAddresses": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "LdapServerMetadata": {
+   "$ref": "#/definitions/LdapServerMetadata"
+  },
+  "Logs": {
+   "$ref": "#/definitions/LogList"
+  },
+  "MaintenanceWindowStartTime": {
+   "$ref": "#/definitions/MaintenanceWindow"
+  },
+  "MqttEndpoints": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "OpenWireEndpoints": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "PubliclyAccessible": {
+   "type": "boolean"
+  },
+  "SecurityGroups": {
+   "format": "AWS::EC2::SecurityGroup.Ids",
+   "items": {
+    "format": "AWS::EC2::SecurityGroup.GroupId",
+    "type": "string"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "StompEndpoints": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "StorageType": {
+   "type": "string"
+  },
+  "SubnetIds": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "Tags": {
+   "items": {
+    "$ref": "#/definitions/TagsEntry"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "Users": {
+   "items": {
+    "$ref": "#/definitions/User"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "WssEndpoints": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array",
+   "uniqueItems": false
+  }
+ },
+ "readOnlyProperties": [
+  "/properties/IpAddresses",
+  "/properties/Id",
+  "/properties/MqttEndpoints",
+  "/properties/OpenWireEndpoints",
+  "/properties/ConfigurationId",
+  "/properties/ConfigurationRevision",
+  "/properties/StompEndpoints",
+  "/properties/WssEndpoints",
+  "/properties/AmqpEndpoints",
+  "/properties/Arn"
+ ],
+ "required": [
+  "DeploymentMode",
+  "HostInstanceType",
+  "EngineType",
+  "Users",
+  "PubliclyAccessible",
+  "BrokerName"
+ ],
+ "typeName": "AWS::AmazonMQ::Broker"
+}

@@ -1,0 +1,11 @@
+[package]
+name = "template-cleaner"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+yaml-rust2 = "0.8.1"
+anyhow = "1.0.86"
+itertools = "0.13.0"
+include_dir = "0.7.4"
+indexmap = "2.4.0"
