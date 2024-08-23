@@ -2,8 +2,9 @@ mod bimap;
 mod union_find;
 
 use crate::union_find::UnionFind;
-use include_dir::{include_dir, Dir, File};
+use include_dir::{include_dir, Dir};
 use itertools::Itertools;
+use std::collections::HashMap;
 use yaml_rust2::yaml::Hash;
 use yaml_rust2::{Yaml, YamlLoader};
 
@@ -60,7 +61,9 @@ fn resource_type(resource: &Yaml) -> Option<&str> {
 }
 
 fn remove_mutually_exclusive(data: &Hash, schema: &Hash) -> Hash {
-    let properties = schema
+    // TODO Recursive processing. For now, we are only sanitizing the top level.
+
+    let all_properties = schema
         .get(&Yaml::String("properties".into()))
         .and_then(|props| props.as_hash())
         .map(|props| props.keys().collect_vec())
@@ -68,7 +71,7 @@ fn remove_mutually_exclusive(data: &Hash, schema: &Hash) -> Hash {
 
     // Compute a set of property sets. All elements of a given property set are mutually exclusive
     // to all other elements of the same set.
-    let mut property_sets = UnionFind::from_iter(properties.iter().copied());
+    let mut property_sets = UnionFind::from_iter(all_properties.iter().copied());
     if let Some(dependent_excluded) = schema.get(&Yaml::String("dependentExcluded".into())) {
         for (prop, other_props) in dependent_excluded.as_hash().unwrap() {
             for other_prop in other_props.as_vec().unwrap() {
@@ -77,13 +80,18 @@ fn remove_mutually_exclusive(data: &Hash, schema: &Hash) -> Hash {
         }
     }
 
-    // TODO Find a way to not clone the data
-    let mut result = data.clone();
-    for prop in properties {
-        // if a property is not the representative of its own set, remove it
-        if property_sets.find(&prop) != Some(&prop) {
-            result.remove(prop);
-        }
+    // Making sure that the final set of properties is a subset of the original properties
+    let mut temp: HashMap<usize, &Yaml> = HashMap::new();
+    for (name, value) in data {
+        let x = property_sets.find_index(&name).unwrap();
+        temp.insert(x, name);
+    }
+    let remaining_props = temp.values().cloned().collect_vec();
+
+    let mut result = Hash::new();
+    for prop in remaining_props {
+        let value = data.get(prop).unwrap();
+        result.insert(prop.clone(), value.clone());
     }
 
     result

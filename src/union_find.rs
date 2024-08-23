@@ -49,6 +49,21 @@ impl<T: Eq + Hash + Clone> UnionFind<T> {
         }
     }
 
+    pub fn find_index(&mut self, t: &T) -> Option<usize> {
+        let mut idx = self.map.get_by_left(t)?.clone();
+        loop {
+            let is_root = self.array[idx] == idx;
+            if is_root {
+                return Some(idx);
+            } else {
+                // Search with path compression
+                let tmp_idx = self.array[idx];
+                self.array[idx] = self.array[tmp_idx];
+                idx = tmp_idx;
+            }
+        }
+    }
+
     fn find_to_result(&mut self, t: &T) -> Result<T, UnionError> {
         self.find(t)
             .map(Ok)
