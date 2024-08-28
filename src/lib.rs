@@ -4,6 +4,7 @@ mod union_find;
 use crate::union_find::UnionFind;
 use include_dir::{include_dir, Dir};
 use itertools::Itertools;
+use std::borrow::Cow;
 use std::collections::HashMap;
 use yaml_rust2::yaml::Hash;
 use yaml_rust2::{Yaml, YamlLoader};
@@ -24,9 +25,9 @@ fn clean_template(template: &String) -> anyhow::Result<Yaml> {
             for (logical_id, resource) in resources {
                 let schema = schema_for(resource)?;
                 let props = properties(resource).unwrap();
-                let clean = remove_mutually_exclusive(props, &schema.as_hash().unwrap());
+                let clean = remove_mutually_exclusive(props, schema.as_hash());
 
-                new_resources.insert(logical_id.clone(), Yaml::Hash(clean));
+                new_resources.insert(logical_id.clone(), clean.into_owned());
             }
             result.insert(Yaml::String("Resources".into()), Yaml::Hash(new_resources));
         } else {
@@ -46,11 +47,8 @@ fn schema_for(resource: &Yaml) -> anyhow::Result<Yaml> {
     Ok(docs.pop().unwrap())
 }
 
-fn properties(resource: &Yaml) -> Option<&Hash> {
-    resource
-        .as_hash()?
-        .get(&Yaml::String("Properties".into()))?
-        .as_hash()
+fn properties(resource: &Yaml) -> Option<&Yaml> {
+    resource.as_hash()?.get(&Yaml::String("Properties".into()))
 }
 
 fn resource_type(resource: &Yaml) -> Option<&str> {
@@ -60,18 +58,49 @@ fn resource_type(resource: &Yaml) -> Option<&str> {
         .as_str()
 }
 
-fn remove_mutually_exclusive(data: &Hash, schema: &Hash) -> Hash {
-    // TODO Recursive processing. For now, we are only sanitizing the top level.
-    // TODO `data` should be &Yaml and then we pattern match against the possible types.
-    //  Primitives are just cloned, and for hashes and maps, we make a recursive call
+fn remove_mutually_exclusive<'a>(data: &'a Yaml, maybe_schema: Option<&'a Hash>) -> Cow<'a, Yaml> {
+    if let Some(schema) = maybe_schema {
+        match data {
+            Yaml::Real(_)
+            | Yaml::Integer(_)
+            | Yaml::String(_)
+            | Yaml::Boolean(_)
+            | Yaml::Alias(_)
+            | Yaml::Null
+            | Yaml::BadValue => Cow::Borrowed(&data),
+            // TODO Implement the Array case
+            Yaml::Array(array) => Cow::Borrowed(&data),
+            Yaml::Hash(property) => {
+                let mut result = Hash::new();
+                for prop_name in filter_property_names(property, schema) {
+                    let value = property.get(prop_name).unwrap();
 
+                    let sub_schema = schema
+                        .get(&Yaml::String("definitions".into()))
+                        .unwrap()
+                        .as_hash()
+                        .and_then(|x| x.get(prop_name))
+                        .and_then(|x| x.as_hash());
+
+                    let x = remove_mutually_exclusive(value, sub_schema);
+                    result.insert(prop_name.clone(), x.into_owned());
+                }
+
+                Cow::Owned(Yaml::Hash(result))
+            }
+        }
+    } else {
+        Cow::Borrowed(&data)
+    }
+}
+
+fn filter_property_names<'a>(data: &'a Hash, schema: &Hash) -> Vec<&'a Yaml> {
     let all_properties = schema
         .get(&Yaml::String("properties".into()))
         .and_then(|props| props.as_hash())
         .map(|props| props.keys().collect_vec())
         .unwrap();
 
-    // TODO Move this chunk of code, up to the computation of remaining properties, to a separate function
     // Compute a set of property sets. All elements of a given property set are mutually exclusive
     // to all other elements of the same set.
     let mut property_sets = UnionFind::from_iter(all_properties.iter().copied());
@@ -89,15 +118,7 @@ fn remove_mutually_exclusive(data: &Hash, schema: &Hash) -> Hash {
         let x = property_sets.find_index(&name).unwrap();
         temp.insert(x, name);
     }
-    let remaining_props = temp.values().cloned().collect_vec();
-
-    let mut result = Hash::new();
-    for prop in remaining_props {
-        let value = data.get(prop).unwrap();
-        result.insert(prop.clone(), value.clone());
-    }
-
-    result
+    temp.values().cloned().collect_vec()
 }
 
 fn type_to_filename(typ: &str) -> String {
